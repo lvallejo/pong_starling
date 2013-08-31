@@ -11,16 +11,21 @@ package
 	
 	public class Game extends Sprite
 	{
-		private var paddle1:Paddle;
-		private var paddle2:Paddle;
+		
+		private var CpuPaddle:AIPaddle;
 		private var lastTime:int;
 		private var movingDown:Boolean;
+		
+		public static var width:Number;
+		public static var height:Number;
 		
 		private var ball:Ball;
 		
 		public function Game()
 		{
 			addEventListener(Event.ADDED_TO_STAGE,onAdded);
+			width = Starling.current.stage.stageWidth;
+			height = Starling.current.stage.stageHeight;
 			
 		}
 		
@@ -30,14 +35,10 @@ package
 			ball = new Ball();
 			addChild(ball);
 			
-			paddle1 = new Paddle(16,64);
-			paddle2 = new Paddle(16,64);
 			
-			paddle1.x = 0;
-			paddle1.y = 300;
-			paddle2.x = 784
-			addChild(paddle1);
-			addChild(paddle2);
+			CpuPaddle = new AIPaddle();
+			
+			
 			
 			
 			
@@ -67,14 +68,6 @@ package
 			var timeDiff:int = getTimer() - lastTime;
 			lastTime += timeDiff;
 			
-			
-			
-			
-			
-			if(movingDown)
-			{
-				paddle1.y += 4
-			}
 			
 			
 		}

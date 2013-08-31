@@ -1,11 +1,13 @@
 package
 {
+	import flash.geom.Rectangle;
+	
 	import starling.core.Starling;
 	import starling.display.Quad;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	
-	public class Ball extends Sprite
+	public class Ball extends GameObject
 	{
 		private var mQuad:Quad;
 		private var angle:Number = 10;
@@ -13,21 +15,21 @@ package
 		
 		public var speed:Number = 3;
 		/** Velocity in the X direction */
-		var vX:Number = 0;
+		public var vX:Number = 0;
 		
 		/** Velocity in the Y direction */
-		var vY:Number = 0;
+		public var vY:Number = 0;
 		
 		/** Bouncers the ball collides with (type: Bouncer) */
-		var bouncers:Array;
+		public var bouncers:Array;
 		
 		public function Ball()
 		{
 			mQuad = new Quad(10,10,0x00ff00);
-			this.x = Starling.current.stage.stageHeight / 2;;
-			this.y = Starling.current.stage.stageHeight / 2;
+			this.x = Game.width / 2;;
+			this.y = Game.height / 2;
 			addChild(mQuad);
-			addEventListener(Event.ADDED_TO_STAGE, activate);
+			addEventListener(Event.ADDED_TO_STAGE, update);
 		}
 		
 		/**
@@ -36,20 +38,20 @@ package
 		 *         0 if the player has won,
 		 *         1 if the AI has won
 		 */
-		function update():Number
+		public function update():Number
 		{
 			// Update based on velocity
 			this.x += vX;
 			this.y += vY;
 			
 			// Check if we've gone off the left side (AI wins)
-			if (this.x < Game.playArea.x)
+			if (this.x < 0)
 			{
 				return 1;
 			}
 			
 			// Check if we've gone off the right side (player wins)
-			if (this.x >= Game.playArea.x + Game.playArea.width)
+			if (this.x >= Game.width)
 			{
 				return 0;
 			}
@@ -57,7 +59,7 @@ package
 			// Check if we hit any of the bouncers. If we did, have it bounce us.
 			for (var it:String in this.bouncers)
 			{
-				var bouncer:Bouncer = this.bouncers[it];
+				var bouncer:GameObject = this.bouncers[it];
 				
 				// Check if we hit the current bouncer
 				if (hitTestObject(bouncer))
@@ -69,6 +71,18 @@ package
 			}
 			
 			return -1;
+		}
+		
+		
+		public function hitTestObject(o:GameObject):Boolean
+		{
+			var bounds:Rectangle = mQuad.bounds;
+			var oBounds:Rectangle = o.bounds;
+			if(bounds.intersects(oBounds))
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

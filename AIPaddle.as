@@ -6,7 +6,7 @@ package
 	public class AIPaddle extends Paddle
 	{
 		/** The ball we try to hit */
-		var ball:Ball;
+		public var ball:Ball;
 		
 		/** Maximum distance the paddle can move per update */
 		private var maxSpeed:Number = 9;
@@ -15,7 +15,7 @@ package
 		 * Update by trying to hit the ball. We try to hit the ball at a random spot
 		 * on the paddle.
 		 */
-		function update():void
+		public function update():void
 		{
 			// Compute a random spot we'd like to hit the ball at
 			var hitSpot:Number = Math.random() % this.height;

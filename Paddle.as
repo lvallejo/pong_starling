@@ -6,11 +6,9 @@ package
 	import starling.display.Sprite;
 	import starling.events.Event;
 	
-	public class Paddle extends Sprite implements Bouncer
+	public class Paddle extends GameObject
 	{
 		private var quad:Quad;
-		private var mWidth:uint;
-		private var mHeight:uint;
 		
 		/** Top bound of movement */
 		public var topBound:Number;
@@ -22,10 +20,8 @@ package
 		private static var maxBounceVYSkew:Number = 12;
 		
 		
-		public function Paddle(width:uint,height:uint)
+		public function Paddle()
 		{
-			mWidth = width;
-			mHeight = height;
 			addEventListener(Event.ADDED_TO_STAGE,activate);
 		}
 		
@@ -37,7 +33,7 @@ package
 		
 		public function activate(e:Event):void
 		{
-			quad = new Quad(mWidth,mHeight);
+			quad = new Quad(16,64);
 			quad.color = 0x00ff00;
 			quad.x = 0;
 			quad.y = 0;
@@ -49,7 +45,7 @@ package
 		 * Bounce a ball off of the paddle.
 		 * @param ball Ball to bounce
 		 */
-		public function bounce(ball:Ball):void
+		public override function bounce(ball:Ball):void
 		{
 			// Reverse X direction and bounce horizontally
 			ball.vX = -ball.vX;
